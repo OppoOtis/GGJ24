@@ -21,8 +21,10 @@ public class PuppetMaster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BlackBoard.otto = this; 
-        ShortTalk("HA HA HA! LOOK AT IT!");
+        BlackBoard.otto = this;
+        //ShortTalk("HA HA HA! LOOK AT IT!");
+
+        LongTalk("Choose a card");
         LowerEyes();
         LowerMouth();
     }

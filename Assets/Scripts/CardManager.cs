@@ -36,6 +36,7 @@ public class CardManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
         {
             BlackBoard.selectedCard = null;
+            BlackBoard.otto.StopTalking();
         }
     }
 

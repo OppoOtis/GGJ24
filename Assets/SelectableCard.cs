@@ -8,14 +8,13 @@ public class SelectableCard : MonoBehaviour
     public Material normalMat;
     public Material highLightMat;
 
-    MeshRenderer meshRenderer;
+    public MeshRenderer meshRenderer;
 
     public Transform heldPos, highLightPos, selectedPos;
     bool hightLighted;
 
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
 
         myCard = new Card(transform.gameObject);
     }
@@ -49,8 +48,11 @@ public class SelectableCard : MonoBehaviour
     private void OnMouseDown()
     {
         //select this card
-        BlackBoard.selectedCard = myCard; 
-        //move the card to the left
+        BlackBoard.selectedCard = myCard;
+
+        //trigger a line
+        BlackBoard.otto.StopTalking();
+        BlackBoard.otto.LongTalk("Pick a FRIEND..");
     }
 
     private void OnMouseOver()
