@@ -235,7 +235,6 @@ public class CharacterManager : MonoBehaviour
             if (leftArm == false)
             {
                 leftArm = true;
-                return;
             }
             else if (rightArm == false)
             {
