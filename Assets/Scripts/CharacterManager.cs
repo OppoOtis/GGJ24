@@ -407,6 +407,7 @@ public class CharacterManager : MonoBehaviour
         {
             chRA.color = damagedColor;
         }
+        UpdateFace();
     }
 
     public void UpdateFace()
