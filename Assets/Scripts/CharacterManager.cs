@@ -142,6 +142,7 @@ public class CharacterManager : MonoBehaviour
                 headDamage = 8;
             }
         }
+        UpdateVisual();
     }
     public void DamageTorso(int amount)
     {
@@ -158,6 +159,7 @@ public class CharacterManager : MonoBehaviour
                 legDamage = 3;
             }
         }
+        UpdateVisual();
     }
     public void DamageLeg(int amount)
     {
@@ -169,6 +171,7 @@ public class CharacterManager : MonoBehaviour
                 legDamage = 2;
             }
         }
+        UpdateVisual();
     }
     public void DamageArm(int amount)
     {
@@ -189,6 +192,7 @@ public class CharacterManager : MonoBehaviour
             leftArm = false;
             rightArm = false;
         }
+        UpdateVisual();
     }
 
     public void HealHead(int amount)
@@ -198,6 +202,7 @@ public class CharacterManager : MonoBehaviour
         {
             headDamage = 0;
         }
+        UpdateVisual();
     }
     public void HealTorso(int amount)
     {
@@ -210,6 +215,7 @@ public class CharacterManager : MonoBehaviour
         {
             legDamage = 2;
         }
+        UpdateVisual();
     }
     public void HealLeg(int amount)
     {
@@ -221,6 +227,7 @@ public class CharacterManager : MonoBehaviour
                 legDamage = 0;
             }
         }
+        UpdateVisual();
     }
     public void HealArm(int amount)
     {
@@ -241,6 +248,7 @@ public class CharacterManager : MonoBehaviour
             leftArm = true;
             rightArm = true;
         }
+        UpdateVisual();
     }
 
     public void UpdateVisual()
