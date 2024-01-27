@@ -180,7 +180,6 @@ public class CharacterManager : MonoBehaviour
             if (leftArm)
             {
                 leftArm = false;
-                return;
             }
             else if(rightArm)
             {

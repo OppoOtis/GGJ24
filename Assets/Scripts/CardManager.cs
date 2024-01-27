@@ -29,8 +29,8 @@ public class CardManager : MonoBehaviour
         hand = new List<Card>();
 
         allTimeDeck.Add(new Card(cardType.damageHead));
-        allTimeDeck.Add(new Card(cardType.damageHead));
-        allTimeDeck.Add(new Card(cardType.damageHead));
+        allTimeDeck.Add(new Card(cardType.damageArm));
+        allTimeDeck.Add(new Card(cardType.damageLeg));
 
         StartGame();
         StartTurn();

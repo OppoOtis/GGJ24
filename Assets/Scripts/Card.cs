@@ -31,6 +31,12 @@ public class Card
             case cardType.damageHead:
                 visual = Object.Instantiate(Resources.Load<GameObject>("DamageHead"));
                 break;
+            case cardType.damageArm:
+                visual = Object.Instantiate(Resources.Load<GameObject>("DamageArms"));
+                break;
+            case cardType.damageLeg:
+                visual = Object.Instantiate(Resources.Load<GameObject>("DamageLegs"));
+                break;
         }
 
         selectableCard = visual.GetComponent<SelectableCard>();
@@ -40,13 +46,6 @@ public class Card
 
     public Card Clone()
     {
-        GameObject duplicateObject = Object.Instantiate(visual, visual.transform.parent);
-
-        // Optionally, you can set the position, rotation, and scale of the duplicateObject
-        duplicateObject.transform.position = visual.transform.position;
-        duplicateObject.transform.rotation = visual.transform.rotation; // No rotation
-        duplicateObject.transform.localScale = visual.transform.localScale; // Default scale
-
         return new Card(myType);
     }
 
@@ -61,6 +60,12 @@ public class Card
                 break;
             case cardType.damageHead:
                 target.DamageHead(1);
+                break;
+            case cardType.damageLeg:
+                target.DamageLeg(1);
+                break;
+            case cardType.damageArm:
+                target.DamageArm(1);
                 break;
         }
 
