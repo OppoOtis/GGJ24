@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectCharacter : MonoBehaviour
 {
+    public GameObject statsUI;
     Animator animator;
 
     private void Awake()
@@ -14,11 +15,14 @@ public class SelectCharacter : MonoBehaviour
     {
         animator.SetBool("Select", true);
         BlackBoard.otto.AssignLookingTarget(transform);
+
+        statsUI.SetActive(true);
     }
 
     private void OnMouseExit()
     {
         animator.SetBool("Select", false);
+        statsUI.SetActive(false);
     }
 
     private void OnMouseDown()

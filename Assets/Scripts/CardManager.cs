@@ -11,6 +11,7 @@ public class CardManager : MonoBehaviour
     List<Card> deck;
     List<Card> hand;
     public Transform handVisual;
+    public GameObject cardPrefab;
 
     public Transform[] heldCardsPos, highlightedCardsPos;
     public Transform selectedPos;
@@ -22,7 +23,18 @@ public class CardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        BlackBoard.manager = this;
+        allTimeDeck = new List<Card>();
+        deck = new List<Card>();
+        hand = new List<Card>();
+
+        allTimeDeck.Add(new Card(cardType.damageHead));
+        allTimeDeck.Add(new Card(cardType.damageHead));
+        allTimeDeck.Add(new Card(cardType.damageHead));
+
+        StartGame();
+        StartTurn();
+
     }
 
     // Update is called once per frame
@@ -38,6 +50,11 @@ public class CardManager : MonoBehaviour
             BlackBoard.selectedCard = null;
             BlackBoard.otto.StopTalking();
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            DrawCard();
+        }
     }
 
     public void StartGame()
@@ -51,6 +68,11 @@ public class CardManager : MonoBehaviour
     public void StartTurn()
     {
         BlackBoard.playerTurn = true;
+
+        while(hand.Count < 3 && deck.Count > 0)
+        {
+            DrawCard();
+        }
     }
 
     public void EndTurn()
@@ -66,6 +88,15 @@ public class CardManager : MonoBehaviour
     void HoverCards()
     {
 
+    }
+
+    public void DiscardCard(Card crd)
+    {
+        hand.Remove(crd);
+
+        //then play a little dying animation or something
+        Destroy(crd.visual);
+        ReOrderCards();
     }
 
     public void SelectCard(Card card)
@@ -85,19 +116,30 @@ public class CardManager : MonoBehaviour
 
         switch (hand.Count)
         {
-            case 0:
+            case 1:
                 drawnCard.selectableCard.heldPos = heldCardsPos[0];
                 drawnCard.selectableCard.highLightPos = highlightedCardsPos[0];
                 break;
-            case 1:
+            case 2:
                 drawnCard.selectableCard.heldPos = heldCardsPos[1];
                 drawnCard.selectableCard.highLightPos = highlightedCardsPos[1];
                 break;
-            case 2:
+            case 3:
                 drawnCard.selectableCard.heldPos = heldCardsPos[2];
                 drawnCard.selectableCard.highLightPos = highlightedCardsPos[2];
                 break;
         }
         drawnCard.selectableCard.selectedPos = selectedPos;
+
+        drawnCard.active = true;
+    }
+
+    public void ReOrderCards()
+    {
+        for(int i = 0; i < hand.Count; i++)
+        {
+            hand[i].selectableCard.heldPos = heldCardsPos[i];
+            hand[i].selectableCard.highLightPos = highlightedCardsPos[i];
+        }
     }
 }

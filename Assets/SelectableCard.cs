@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectableCard : MonoBehaviour
 {
-    Card myCard;
+    public Card myCard;
     public Material normalMat;
     public Material highLightMat;
 
@@ -15,28 +15,29 @@ public class SelectableCard : MonoBehaviour
 
     private void Awake()
     {
-
-        myCard = new Card(transform.gameObject);
     }
 
     private void Update()
     {
-        if(BlackBoard.selectedCard == myCard)
+        if (myCard.active)
         {
-            transform.position = Vector3.Lerp(transform.position, selectedPos.position, 5 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, selectedPos.rotation, 5 * Time.deltaTime);
-        }
+            if (BlackBoard.selectedCard == myCard)
+            {
+                transform.position = Vector3.Lerp(transform.position, selectedPos.position, 5 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, selectedPos.rotation, 5 * Time.deltaTime);
+            }
 
-        else if (hightLighted)
-        {
-            transform.position = Vector3.Lerp(transform.position, highLightPos.position, 10 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, highLightPos.rotation, 10 * Time.deltaTime);
-        }
+            else if (hightLighted)
+            {
+                transform.position = Vector3.Lerp(transform.position, highLightPos.position, 10 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, highLightPos.rotation, 10 * Time.deltaTime);
+            }
 
-        else
-        {
-            transform.position = Vector3.Lerp(transform.position, heldPos.position, 10 * Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, heldPos.rotation, 10 * Time.deltaTime);
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, heldPos.position, 10 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, heldPos.rotation, 10 * Time.deltaTime);
+            }
         }
     }
 
