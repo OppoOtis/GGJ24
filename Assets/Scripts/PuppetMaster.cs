@@ -15,11 +15,14 @@ public class PuppetMaster : MonoBehaviour
     public Animator puppetMasterAnimator;
     public Animator MouthAnimator;
 
+    float talkLength;
+    bool longTalkBool;
+
     // Start is called before the first frame update
     void Start()
     {
         BlackBoard.otto = this; 
-        Talk("HA HA HA! LOOK AT IT!");
+        ShortTalk("HA HA HA! LOOK AT IT!");
         LowerEyes();
         LowerMouth();
     }
@@ -66,11 +69,26 @@ public class PuppetMaster : MonoBehaviour
         MouthAnimator.SetBool("Frown", false);
     }
 
-    public void Talk(string whatToSay)
+    public void ShortTalk(string whatToSay)
     {
+        talkLength = 3f;
         puppetMasterText.text = "";
         textBottomArrow.SetActive(true);
         StartCoroutine(TypeTalking(whatToSay));
+    }
+
+    public void LongTalk(string whatToSay)
+    {
+        longTalkBool = true;
+        talkLength = 0;
+        puppetMasterText.text = "";
+        textBottomArrow.SetActive(true);
+        StartCoroutine(TypeTalking(whatToSay));
+    }
+
+    public void StopTalking()
+    {
+        longTalkBool = false;
     }
 
     public void AssignLookingTarget(Transform target)
@@ -92,7 +110,18 @@ public class PuppetMaster : MonoBehaviour
             currentAmount++;
         }
 
-        yield return new WaitForSeconds(3f);
+        if (talkLength > 0)
+        {
+            yield return new WaitForSeconds(talkLength);
+        }
+
+        else
+        {
+            while (longTalkBool)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+        }
         puppetMasterText.text = "";
         textBottomArrow.SetActive(false);
     }

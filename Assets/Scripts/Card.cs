@@ -2,16 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class scriptableCard : ScriptableObject
-{
-
-}
-
-public interface ICard   
-{
-    void useCard();
-}
-
 public class Card
 {
     public GameObject visual;
@@ -32,5 +22,10 @@ public class Card
         duplicateObject.transform.localScale = visual.transform.localScale; // Default scale
 
         return new Card(duplicateObject);
+    }
+
+    public void UseCard(CharacterManager target)
+    {
+
     }
 }

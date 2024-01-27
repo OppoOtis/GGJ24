@@ -13,8 +13,11 @@ public class CardManager : MonoBehaviour
     public Transform handVisual;
 
     public Transform[] heldCardsPos, highlightedCardsPos;
+    public Transform selectedPos;
 
     Card selectedCard;
+
+    public GameObject[] characters;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,29 @@ public class CardManager : MonoBehaviour
         {
             HoverCards();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+        {
+            BlackBoard.selectedCard = null;
+        }
+    }
+
+    public void StartGame()
+    {
+        foreach(Card crd in allTimeDeck)
+        {
+            deck.Add(crd.Clone());
+        }
+    }
+
+    public void StartTurn()
+    {
+        BlackBoard.playerTurn = true;
+    }
+
+    public void EndTurn()
+    {
+        BlackBoard.playerTurn = false;
     }
 
     void CreateCard()
@@ -38,11 +64,7 @@ public class CardManager : MonoBehaviour
 
     void HoverCards()
     {
-        //optional
-        foreach(Card crd in hand)
-        {
 
-        }
     }
 
     public void SelectCard(Card card)
@@ -58,23 +80,23 @@ public class CardManager : MonoBehaviour
         deck.Remove(drawnCard);
 
         //spawn a card and add it to your hand
+        hand.Add(drawnCard);
+
         switch (hand.Count)
         {
             case 0:
-                hand.Add(drawnCard);
                 drawnCard.selectableCard.heldPos = heldCardsPos[0];
                 drawnCard.selectableCard.highLightPos = highlightedCardsPos[0];
                 break;
             case 1:
-                hand.Add(drawnCard);
                 drawnCard.selectableCard.heldPos = heldCardsPos[1];
                 drawnCard.selectableCard.highLightPos = highlightedCardsPos[1];
                 break;
             case 2:
-                hand.Add(drawnCard);
                 drawnCard.selectableCard.heldPos = heldCardsPos[2];
                 drawnCard.selectableCard.highLightPos = highlightedCardsPos[2];
                 break;
         }
+        drawnCard.selectableCard.selectedPos = selectedPos;
     }
 }

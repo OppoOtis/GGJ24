@@ -10,17 +10,25 @@ public class SelectableCard : MonoBehaviour
 
     MeshRenderer meshRenderer;
 
-    public Transform heldPos, highLightPos;
+    public Transform heldPos, highLightPos, selectedPos;
     bool hightLighted;
 
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
+
+        myCard = new Card(transform.gameObject);
     }
 
     private void Update()
     {
-        if (hightLighted)
+        if(BlackBoard.selectedCard == myCard)
+        {
+            transform.position = Vector3.Lerp(transform.position, selectedPos.position, 5 * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, selectedPos.rotation, 5 * Time.deltaTime);
+        }
+
+        else if (hightLighted)
         {
             transform.position = Vector3.Lerp(transform.position, highLightPos.position, 10 * Time.deltaTime);
             transform.rotation = Quaternion.Lerp(transform.rotation, highLightPos.rotation, 10 * Time.deltaTime);
@@ -41,14 +49,18 @@ public class SelectableCard : MonoBehaviour
     private void OnMouseDown()
     {
         //select this card
-        if(BlackBoard.selectedCard == null)
-        {
-            BlackBoard.selectedCard = myCard; 
-        }
+        BlackBoard.selectedCard = myCard; 
+        //move the card to the left
     }
 
     private void OnMouseOver()
     {
+        if (BlackBoard.selectedCard == myCard)
+        {
+            DeHighLightCard();
+            return;
+        }
+
         HighLightCard();
     }
 
