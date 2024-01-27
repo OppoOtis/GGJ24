@@ -41,6 +41,19 @@ public class CharacterManager : MonoBehaviour
     public GameObject[] standingFaceVisual;
     public GameObject[] crawlingFaceVisual;
 
+    [Header("UI Settings")]
+    public Color healthyColor;
+    public Color damagedColor;
+    public SpriteRenderer chHead;
+    public SpriteRenderer chHeadC;
+    public SpriteRenderer chTorso;
+    public SpriteRenderer chTorsoC;
+    public SpriteRenderer chLL;
+    public SpriteRenderer chRL;
+    public SpriteRenderer chLA;
+    public SpriteRenderer chRA;
+
+
     private void Start()
     {
         UpdateVisual();
@@ -320,6 +333,71 @@ public class CharacterManager : MonoBehaviour
                 crawlingHeadVisuals[7].SetActive(true);
             }
             crawlingTorsoVisuals[legDamage].SetActive(true);
+        }
+
+        if(headDamage >= 8)
+        {
+            chHeadC.color = damagedColor;
+            chHead.color = damagedColor;
+        }
+        else if(headDamage == 7)
+        {
+            chHeadC.color = healthyColor;
+            chHead.color = damagedColor;
+        }
+        else
+        {
+            chHead.color = healthyColor;
+            chHeadC.color = healthyColor;
+        }
+
+        if (torsoDamage >= 8)
+        {
+            chTorsoC.color = damagedColor;
+            chTorso.color = damagedColor;
+        }
+        else if (torsoDamage == 7)
+        {
+            chTorsoC.color = healthyColor;
+            chTorso.color = damagedColor;
+        }
+        else
+        {
+            chTorsoC.color = healthyColor;
+            chTorso.color = healthyColor;
+        }
+
+        if (legDamage >= 2)
+        {
+            chLL.color = damagedColor;
+            chRL.color = damagedColor;
+        }
+        else if(legDamage == 1)
+        {
+            chLL.color = damagedColor;
+            chRL.color = healthyColor;
+        }
+        else if(legDamage == 0)
+        {
+            chLL.color = healthyColor;
+            chRL.color = healthyColor;
+        }
+
+        if (leftArm)
+        {
+            chLA.color = healthyColor;
+        }
+        else
+        {
+            chLA.color = damagedColor;
+        }
+        if (rightArm)
+        {
+            chRA.color = healthyColor;
+        }
+        else
+        {
+            chRA.color = damagedColor;
         }
     }
 
