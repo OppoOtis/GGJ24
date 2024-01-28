@@ -6,6 +6,7 @@ public static class BlackBoard
 {
     public static PuppetMaster otto;
     public static CardManager manager;
+    public static Clock clock;
 
     public static bool playerTurn;
 

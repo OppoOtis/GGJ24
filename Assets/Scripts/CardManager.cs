@@ -59,6 +59,7 @@ public class CardManager : MonoBehaviour
 
     public void StartGame()
     {
+        deck = new List<Card>();
         foreach(Card crd in allTimeDeck)
         {
             deck.Add(crd.Clone());

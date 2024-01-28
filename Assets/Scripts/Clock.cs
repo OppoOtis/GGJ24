@@ -17,6 +17,11 @@ public class Clock : MonoBehaviour
 
     public float speed = 0.01f;
 
+    private void Awake()
+    {
+        BlackBoard.clock = this;
+    }
+
     private void Update()
     {
         if (rotateClock)
