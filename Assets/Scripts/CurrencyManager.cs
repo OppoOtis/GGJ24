@@ -18,6 +18,7 @@ public class CurrencyManager : MonoBehaviour
 
     private void Awake()
     {
+        BlackBoard.currency = this;
         coins = new Queue<GameObject>();
     }
 

@@ -8,6 +8,7 @@ public static class BlackBoard
     public static CardManager manager;
     public static Clock clock;
     public static CurrencyManager currency;
+    public static AudioManager audioM;
 
     public static bool playerTurn;
 
