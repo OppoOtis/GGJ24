@@ -80,7 +80,7 @@ MonoBehaviour:
   spawnCoin: 0
   deleteCoin: 0
   coinAmount: 1
-  coin: {fileID: 6681240662476329675, guid: 02d496f802e0d4b4eaf4ab65fb4fc7b0, type: 3}
+  coin: {fileID: 8198613877732627136, guid: 02d496f802e0d4b4eaf4ab65fb4fc7b0, type: 3}
   spawnPosition: {fileID: 944392308196241564}
   currency: 0
   coinsToAdd: 0
