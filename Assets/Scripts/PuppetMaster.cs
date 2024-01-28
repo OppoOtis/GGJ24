@@ -53,12 +53,9 @@ public class PuppetMaster : MonoBehaviour
 
     public void StartLaughing() 
     {
-        MouthAnimator.SetBool("Laugh", true);
-    }
-
-    public void StopLaughing()
-    {
-        MouthAnimator.SetBool("Laugh", false);
+        MouthAnimator.SetTrigger("Laugh");
+        StopTalking();
+        ShortTalk("HAHAHAHA");
     }
 
     public void StartFrowning()

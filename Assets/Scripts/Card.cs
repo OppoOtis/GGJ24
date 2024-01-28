@@ -60,12 +60,15 @@ public class Card
                 break;
             case cardType.damageHead:
                 target.DamageHead(1);
+                BlackBoard.otto.StartLaughing();
                 break;
             case cardType.damageLeg:
                 target.DamageLeg(1);
+                BlackBoard.otto.StartLaughing();
                 break;
             case cardType.damageArm:
                 target.DamageArm(1);
+                BlackBoard.otto.StartLaughing();
                 break;
         }
 

@@ -13,10 +13,13 @@ public class SelectCharacter : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        animator.SetBool("Select", true);
-        BlackBoard.otto.AssignLookingTarget(transform);
+        if (BlackBoard.selectedCard != null)
+        {
+            animator.SetBool("Select", true);
+            BlackBoard.otto.AssignLookingTarget(transform);
 
-        statsUI.SetActive(true);
+            statsUI.SetActive(true);
+        }
     }
 
     private void OnMouseExit()
