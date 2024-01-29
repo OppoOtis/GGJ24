@@ -11,6 +11,7 @@ public static class BlackBoard
     public static AudioManager audioM;
 
     public static bool playerTurn;
+    public static int eventCounter;
 
     public static Card selectedCard;
 }

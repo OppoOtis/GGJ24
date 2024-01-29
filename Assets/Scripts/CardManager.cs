@@ -18,7 +18,7 @@ public class CardManager : MonoBehaviour
 
     Card selectedCard;
 
-    public GameObject[] characters;
+    public CharacterManager[] characters;
 
     // Start is called before the first frame update
     void Start()
@@ -28,9 +28,11 @@ public class CardManager : MonoBehaviour
         deck = new List<Card>();
         hand = new List<Card>();
 
-        allTimeDeck.Add(new Card(cardType.damageHead));
+        allTimeDeck.Add(new Card(cardType.moveRight));
         allTimeDeck.Add(new Card(cardType.damageArm));
         allTimeDeck.Add(new Card(cardType.damageLeg));
+
+        BlackBoard.eventCounter = 10;
 
         StartGame();
         StartTurn();
@@ -40,11 +42,6 @@ public class CardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BlackBoard.playerTurn)
-        {
-            HoverCards();
-        }
-
         if(Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
         {
             BlackBoard.selectedCard = null;
@@ -59,6 +56,7 @@ public class CardManager : MonoBehaviour
 
     public void StartGame()
     {
+        BlackBoard.otto.LongTalk("Your Turn");
         deck = new List<Card>();
         foreach(Card crd in allTimeDeck)
         {
@@ -69,26 +67,18 @@ public class CardManager : MonoBehaviour
     public void StartTurn()
     {
         BlackBoard.playerTurn = true;
-
         while(hand.Count < 3 && deck.Count > 0)
         {
             DrawCard();
         }
+
+        BlackBoard.otto.AssignLookingTarget(Camera.main.transform); 
     }
 
     public void EndTurn()
     {
         BlackBoard.playerTurn = false;
-    }
-
-    void CreateCard()
-    {
-
-    }
-
-    void HoverCards()
-    {
-
+        StartCoroutine(EndTurnCoroutine());
     }
 
     public void DiscardCard(Card crd)
@@ -111,6 +101,14 @@ public class CardManager : MonoBehaviour
         //get a random card from the deck
         Card drawnCard = deck[Random.Range(0, deck.Count)];
         deck.Remove(drawnCard);
+
+        if(deck.Count <= 0)
+        {
+            foreach (Card crd in allTimeDeck)
+            {
+                deck.Add(crd.Clone());
+            }
+        }
 
         //spawn a card and add it to your hand
         hand.Add(drawnCard);
@@ -142,5 +140,63 @@ public class CardManager : MonoBehaviour
             hand[i].selectableCard.heldPos = heldCardsPos[i];
             hand[i].selectableCard.highLightPos = highlightedCardsPos[i];
         }
+    }
+
+    IEnumerator EndTurnCoroutine()
+    {
+
+        //do a number of things in sequence:
+        //1: end your turn, do things that are supposed to happen at the end of your turn (currently nothing)
+        //2: move the event counter up
+
+        BlackBoard.playerTurn = false;
+        BlackBoard.eventCounter--;
+        BlackBoard.clock.RotateClock(BlackBoard.eventCounter);
+        
+        if(BlackBoard.eventCounter > 0)
+        {
+            string[] possibleLines = new string[] {
+            "The timer is ticking...",
+            "Just a few more turns...",
+            "Look at the number go down..",
+            "I'm waiting..."
+            };
+
+            int randomInt = Random.Range(0, possibleLines.Length);
+
+            BlackBoard.otto.ShortTalk(possibleLines[randomInt]);
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        if(BlackBoard.eventCounter == 1)
+        {
+            //if cage is the next event, give a warning
+        }
+
+        if(BlackBoard.eventCounter == 0)
+        {
+            //2.1: trigger an event
+
+
+            //2.2 queue a new event
+        }
+
+
+        //3: move to turn start
+        string[] possibleLines2 = new string[] {
+            "Your go",
+            "Your turn",
+            "Play some cards..",
+            "Go ahead.."
+            };
+
+        int randomInt2 = Random.Range(0, possibleLines2.Length);
+
+        BlackBoard.otto.ShortTalk(possibleLines2[randomInt2]);
+
+        StartTurn();
+
+        yield return null;
     }
 }

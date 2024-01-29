@@ -16,7 +16,7 @@ public class PuppetMaster : MonoBehaviour
     public Animator MouthAnimator;
 
     float talkLength;
-    bool longTalkBool;
+    public bool longTalkBool;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +34,22 @@ public class PuppetMaster : MonoBehaviour
     {
         rightEye.transform.LookAt(rightLookAt);
         leftEye.transform.LookAt(leftLookAt);
+    }
+
+    private void OnMouseDown()
+    {
+        string[] possibleLines = new string[] {
+            "DONT TOUCH MEEE",
+            "KEEP YOUR HANDS WHERE THEY BELONG",
+            "STOP IT",
+            "I WILL TAKE YOUR TEETH"
+        };
+
+        int randomInt = Random.Range(0, possibleLines.Length);
+
+        ShortTalk(possibleLines[randomInt]);
+        rightLookAt = Camera.main.transform;
+        leftLookAt = Camera.main.transform;
     }
 
     public void LowerEyes()
@@ -54,7 +70,6 @@ public class PuppetMaster : MonoBehaviour
     public void StartLaughing() 
     {
         MouthAnimator.SetTrigger("Laugh");
-        StopTalking();
         ShortTalk("HAHAHAHA");
     }
 
@@ -70,6 +85,7 @@ public class PuppetMaster : MonoBehaviour
 
     public void ShortTalk(string whatToSay)
     {
+        StopTalking();
         talkLength = 3f;
         puppetMasterText.text = "";
         textBottomArrow.SetActive(true);
@@ -78,6 +94,7 @@ public class PuppetMaster : MonoBehaviour
 
     public void LongTalk(string whatToSay)
     {
+        StopTalking();
         longTalkBool = true;
         talkLength = 0;
         puppetMasterText.text = "";

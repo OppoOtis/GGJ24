@@ -249,6 +249,20 @@ public class CharacterManager : MonoBehaviour
         UpdateVisual();
     }
 
+    public void MoveToLocation(Vector3 _moveTo)
+    {
+        StartCoroutine(MoveToLocationCoroutine(_moveTo));
+    }
+
+    public IEnumerator MoveToLocationCoroutine(Vector3 _moveTo)
+    { 
+        while(transform.parent.position != _moveTo)
+        {
+            transform.parent.position = Vector3.Lerp(transform.parent.position, _moveTo, 10 * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
     public void UpdateVisual()
     {
         //turn everything off
