@@ -9,6 +9,7 @@ public static class BlackBoard
     public static Clock clock;
     public static CurrencyManager currency;
     public static AudioManager audioM;
+    public static EventManager events;
 
     public static bool playerTurn;
     public static int eventCounter;
