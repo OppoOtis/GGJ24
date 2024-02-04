@@ -13,8 +13,9 @@ public class EventManager : MonoBehaviour
     public string currentEvent = "Nothing";
 
 
-    [Header("Events")]
+    [Header("Event Objects")]
     public GameObject cage;
+    public GameObject shadow;
 
     private void Awake()
     {
@@ -59,6 +60,8 @@ public class EventManager : MonoBehaviour
     {
         Debug.Log("There is currently no active event happening");
     }
+
+    public int selectedCharacter;
 
     public void RunCage()
     {

@@ -90,44 +90,13 @@ public class Card
 
                 else
                 {
-                    //switch the character with the character on the left
-                    if(target == BlackBoard.manager.characters[1])
+                    for (int i = 1; i < BlackBoard.manager.characters.Length; i++)
                     {
-                        Vector3 leftLoc = BlackBoard.manager.characters[0].transform.parent.position;
-                        Vector3 rightLoc = BlackBoard.manager.characters[1].transform.parent.position;
-
-                        CharacterManager temp = BlackBoard.manager.characters[0];
-                        BlackBoard.manager.characters[0] = BlackBoard.manager.characters[1];
-                        BlackBoard.manager.characters[1] = temp;
-
-                        BlackBoard.manager.characters[0].MoveToLocation(leftLoc);
-                        BlackBoard.manager.characters[1].MoveToLocation(rightLoc);
-                    }
-
-                    else if (target == BlackBoard.manager.characters[2])
-                    {
-                        Vector3 leftLoc = BlackBoard.manager.characters[1].transform.parent.position;
-                        Vector3 rightLoc = BlackBoard.manager.characters[2].transform.parent.position;
-
-                        CharacterManager temp = BlackBoard.manager.characters[1];
-                        BlackBoard.manager.characters[1] = BlackBoard.manager.characters[2];
-                        BlackBoard.manager.characters[2] = temp;
-
-                        BlackBoard.manager.characters[1].MoveToLocation(leftLoc);
-                        BlackBoard.manager.characters[2].MoveToLocation(rightLoc);
-                    }
-
-                    else if (target == BlackBoard.manager.characters[3])
-                    {
-                        Vector3 leftLoc = BlackBoard.manager.characters[2].transform.parent.position;
-                        Vector3 rightLoc = BlackBoard.manager.characters[3].transform.parent.position;
-
-                        CharacterManager temp = BlackBoard.manager.characters[2];
-                        BlackBoard.manager.characters[2] = BlackBoard.manager.characters[3];
-                        BlackBoard.manager.characters[3] = temp;
-
-                        BlackBoard.manager.characters[2].MoveToLocation(leftLoc);
-                        BlackBoard.manager.characters[3].MoveToLocation(rightLoc);
+                        if(target == BlackBoard.manager.characters[i])
+                        {
+                            MoveCharacters(i, i-1);
+                            break;
+                        }
                     }
                 }
                 break;
@@ -139,44 +108,13 @@ public class Card
 
                 else
                 {
-                    //switch the character with the character on the right
-                    if (target == BlackBoard.manager.characters[0])
+                    for (int i = 0; i < BlackBoard.manager.characters.Length-1; i++)
                     {
-                        Vector3 leftLoc = BlackBoard.manager.characters[0].transform.parent.position;
-                        Vector3 rightLoc = BlackBoard.manager.characters[1].transform.parent.position;
-
-                        CharacterManager temp = BlackBoard.manager.characters[0];
-                        BlackBoard.manager.characters[0] = BlackBoard.manager.characters[1];
-                        BlackBoard.manager.characters[1] = temp;
-
-                        BlackBoard.manager.characters[0].MoveToLocation(leftLoc);
-                        BlackBoard.manager.characters[1].MoveToLocation(rightLoc);
-                    }
-
-                    else if (target == BlackBoard.manager.characters[1])
-                    {
-                        Vector3 leftLoc = BlackBoard.manager.characters[1].transform.parent.position;
-                        Vector3 rightLoc = BlackBoard.manager.characters[2].transform.parent.position;
-
-                        CharacterManager temp = BlackBoard.manager.characters[1];
-                        BlackBoard.manager.characters[1] = BlackBoard.manager.characters[2];
-                        BlackBoard.manager.characters[2] = temp;
-
-                        BlackBoard.manager.characters[1].MoveToLocation(leftLoc);
-                        BlackBoard.manager.characters[2].MoveToLocation(rightLoc);
-                    }
-
-                    else if (target == BlackBoard.manager.characters[2])
-                    {
-                        Vector3 leftLoc = BlackBoard.manager.characters[2].transform.parent.position;
-                        Vector3 rightLoc = BlackBoard.manager.characters[3].transform.parent.position;
-
-                        CharacterManager temp = BlackBoard.manager.characters[2];
-                        BlackBoard.manager.characters[2] = BlackBoard.manager.characters[3];
-                        BlackBoard.manager.characters[3] = temp;
-
-                        BlackBoard.manager.characters[2].MoveToLocation(leftLoc);
-                        BlackBoard.manager.characters[3].MoveToLocation(rightLoc);
+                        if (target == BlackBoard.manager.characters[i])
+                        {
+                            MoveCharacters(i, i + 1);
+                            break;
+                        }
                     }
                 }
                 break;
@@ -189,5 +127,19 @@ public class Card
         BlackBoard.selectedCard = null;
         //if you use it, discard it
         BlackBoard.manager.DiscardCard(this);
+    }
+
+    public void MoveCharacters(int targetChar, int otherChar)
+    {
+
+        Vector3 targetLocation = BlackBoard.manager.characters[targetChar].transform.parent.position;
+        Vector3 otherLocation = BlackBoard.manager.characters[otherChar].transform.parent.position;
+
+        CharacterManager temp = BlackBoard.manager.characters[targetChar];
+        BlackBoard.manager.characters[targetChar] = BlackBoard.manager.characters[otherChar];
+        BlackBoard.manager.characters[otherChar] = temp;
+
+        BlackBoard.manager.characters[targetChar].MoveToLocation(targetLocation);
+        BlackBoard.manager.characters[otherChar].MoveToLocation(otherLocation);
     }
 }
