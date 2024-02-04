@@ -24,9 +24,10 @@ public class PuppetMaster : MonoBehaviour
         BlackBoard.otto = this;
         //ShortTalk("HA HA HA! LOOK AT IT!");
 
-        LongTalk("Choose a card");
+        //LongTalk("Choose a card");
         LowerEyes();
         LowerMouth();
+        LongTalk("Welcome");
     }
 
     // Update is called once per frame

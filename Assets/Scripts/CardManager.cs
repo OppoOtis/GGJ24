@@ -35,8 +35,6 @@ public class CardManager : MonoBehaviour
         BlackBoard.eventCounter = 10;
 
         StartGame();
-        StartTurn();
-
     }
 
     // Update is called once per frame
@@ -45,7 +43,7 @@ public class CardManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
         {
             BlackBoard.selectedCard = null;
-            BlackBoard.otto.StopTalking();
+            //BlackBoard.otto.StopTalking();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -56,7 +54,7 @@ public class CardManager : MonoBehaviour
 
     public void StartGame()
     {
-        BlackBoard.otto.LongTalk("Your Turn");
+        //BlackBoard.otto.LongTalk("Your Turn");
         deck = new List<Card>();
         foreach(Card crd in allTimeDeck)
         {
@@ -111,6 +109,7 @@ public class CardManager : MonoBehaviour
         }
 
         //spawn a card and add it to your hand
+        drawnCard.visual.transform.SetParent(handVisual);
         hand.Add(drawnCard);
 
         switch (hand.Count)
