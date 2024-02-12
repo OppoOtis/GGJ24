@@ -13,6 +13,8 @@ public class SelectableCard : MonoBehaviour
     public Transform heldPos, highLightPos, selectedPos;
     bool hightLighted;
 
+    public ParticleSystem playCardParticles;
+
     private void Update()
     {
         if (myCard.active)
@@ -87,5 +89,11 @@ public class SelectableCard : MonoBehaviour
     {
         meshRenderer.material = normalMat;
         hightLighted = false;
+    }
+
+    public void PlayPlayParticles()
+    {
+        Debug.Log("Play Particles");
+        playCardParticles.Play();
     }
 }

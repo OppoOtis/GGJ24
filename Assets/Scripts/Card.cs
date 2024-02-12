@@ -7,11 +7,11 @@ public enum cardType
     healHead,
     healArm,
     healLeg,
-    healBody,
+    healTorso,
     damageHead,
     damageArm,
     damageLeg,
-    damageBody,
+    damageTorso,
     moveLeft,
     moveRight
 }
@@ -29,6 +29,18 @@ public class Card
 
         switch (myType)
         {
+            case cardType.healHead:
+                visual = Object.Instantiate(Resources.Load<GameObject>("HealHead"));
+                break;
+            case cardType.healArm:
+                visual = Object.Instantiate(Resources.Load<GameObject>("HealArms"));
+                break;
+            case cardType.healLeg:
+                visual = Object.Instantiate(Resources.Load<GameObject>("HealLegs"));
+                break;
+            case cardType.healTorso:
+                visual = Object.Instantiate(Resources.Load<GameObject>("HealTorso"));
+                break;
             case cardType.damageHead:
                 visual = Object.Instantiate(Resources.Load<GameObject>("DamageHead"));
                 break;
@@ -37,6 +49,9 @@ public class Card
                 break;
             case cardType.damageLeg:
                 visual = Object.Instantiate(Resources.Load<GameObject>("DamageLegs"));
+                break;
+            case cardType.damageTorso:
+                visual = Object.Instantiate(Resources.Load<GameObject>("DamageTorso"));
                 break;
             case cardType.moveLeft:
                 visual = Object.Instantiate(Resources.Load<GameObject>("MoveToLeft"));
@@ -67,8 +82,16 @@ public class Card
         switch (myType)
         {
             case cardType.healArm:
-                //heal the selected character
                 target.HealArm(1);
+                break;
+            case cardType.healTorso:
+                target.HealTorso(1);
+                break;
+            case cardType.healLeg:
+                target.HealLeg(1);
+                break;
+            case cardType.healHead:
+                target.HealHead(1);
                 break;
             case cardType.damageHead:
                 target.DamageHead(1);
@@ -80,6 +103,10 @@ public class Card
                 break;
             case cardType.damageArm:
                 target.DamageArm(1);
+                BlackBoard.otto.StartLaughing();
+                break;
+            case cardType.damageTorso:
+                target.DamageTorso(1);
                 BlackBoard.otto.StartLaughing();
                 break;
             case cardType.moveLeft:
@@ -124,9 +151,13 @@ public class Card
         {
             BlackBoard.otto.StopTalking();
         }
-        BlackBoard.selectedCard = null;
         //if you use it, discard it
         BlackBoard.manager.DiscardCard(this);
+    }
+
+    public void PlayDeathAnimation()
+    {
+        visual.GetComponent<Animator>().SetTrigger("Play");
     }
 
     public void MoveCharacters(int targetChar, int otherChar)

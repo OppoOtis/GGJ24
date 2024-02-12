@@ -29,8 +29,15 @@ public class CardManager : MonoBehaviour
         hand = new List<Card>();
 
         allTimeDeck.Add(new Card(cardType.moveRight));
+        allTimeDeck.Add(new Card(cardType.moveLeft));
         allTimeDeck.Add(new Card(cardType.damageArm));
         allTimeDeck.Add(new Card(cardType.damageLeg));
+        allTimeDeck.Add(new Card(cardType.damageHead));
+        allTimeDeck.Add(new Card(cardType.damageTorso));
+        allTimeDeck.Add(new Card(cardType.healArm));
+        allTimeDeck.Add(new Card(cardType.healLeg));
+        allTimeDeck.Add(new Card(cardType.healHead));
+        allTimeDeck.Add(new Card(cardType.healTorso));
 
         BlackBoard.eventCounter = 10;
 
@@ -82,9 +89,23 @@ public class CardManager : MonoBehaviour
     public void DiscardCard(Card crd)
     {
         hand.Remove(crd);
-
+        ReOrderCards();
+        crd.PlayDeathAnimation();
         //then play a little dying animation or something
-        Destroy(crd.visual);
+        StartCoroutine(DiscardCardAnimation(crd));
+    }
+
+    public void DiscardAllCardsInHand()
+    {
+        foreach(Card crd in hand)
+        {
+            crd.PlayDeathAnimation();
+        }
+
+        while(hand.Count > 0)
+        {
+            hand.Remove(hand[0]);
+        }
         ReOrderCards();
     }
 
@@ -166,6 +187,12 @@ public class CardManager : MonoBehaviour
             BlackBoard.otto.ShortTalk(possibleLines[randomInt]);
         }
 
+        if(hand.Count > 0)
+        {
+            //empty the hand
+            DiscardAllCardsInHand();
+        }
+
         yield return new WaitForSeconds(5f);
 
         if(BlackBoard.eventCounter == 1)
@@ -197,5 +224,16 @@ public class CardManager : MonoBehaviour
         StartTurn();
 
         yield return null;
+    }
+
+    IEnumerator DiscardCardAnimation(Card crd)
+    {
+        while (crd.selectableCard.playCardParticles.gameObject.activeSelf)
+        {
+            //wait
+            yield return new WaitForEndOfFrame();
+        }
+        Destroy(crd.visual);
+        BlackBoard.selectedCard = null;
     }
 }

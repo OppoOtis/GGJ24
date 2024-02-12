@@ -72,6 +72,7 @@ public class PuppetMaster : MonoBehaviour
     {
         MouthAnimator.SetTrigger("Laugh");
         ShortTalk("HAHAHAHA");
+        BlackBoard.currency.AddCurrency(1);
     }
 
     public void StartFrowning()

@@ -61,70 +61,59 @@ public class CharacterManager : MonoBehaviour
     }
 
     private void Update()
-    {
-        if (generateVisual)
-        {
-            UpdateVisual();
-            UpdateFace();
-            generateVisual = false;
-        }
+    { 
         //damage
         if (damageHead)
         {
             DamageHead(1);
             damageHead = false;
-            UpdateVisual();
-            UpdateFace();
         }
         if (damageTorso)
         {
             DamageTorso(1);
             damageTorso = false;
-            UpdateVisual();
-            UpdateFace();
         }
         if (damageLeg)
         {
             DamageLeg(1);
             damageLeg = false;
-            UpdateVisual();
-            UpdateFace();
         }
         if (damageArm)
         {
             DamageArm(1);
             damageArm = false;
-            UpdateVisual();
-            UpdateFace();
         }
         //heal
         if (healHead)
         {
             HealHead(1);
             healHead = false;
-            UpdateVisual();
-            UpdateFace();
         }
         if (healTorso)
         {
             HealTorso(1);
             healTorso = false;
-            UpdateVisual();
-            UpdateFace();
         }
         if (healLeg)
         {
             HealLeg(1);
             healLeg = false;
-            UpdateVisual();
-            UpdateFace();
         }
         if (healArm)
         {
             HealArm(1);
             healArm = false;
+        }
+
+        if(generateVisual ||  damageHead || damageLeg || damageArm || damageTorso || healArm || healHead || healLeg || healTorso)
+        {
             UpdateVisual();
             UpdateFace();
+        }
+
+        if (generateVisual)
+        {
+            generateVisual = false;
         }
     }
 
