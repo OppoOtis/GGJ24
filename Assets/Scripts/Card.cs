@@ -95,7 +95,7 @@ public class Card
                 break;
             case cardType.damageHead:
                 target.DamageHead(1);
-                BlackBoard.otto.StartLaughing();
+                BlackBoard.otto.LaughAtDead();
                 break;
             case cardType.damageLeg:
                 target.DamageLeg(1);
@@ -107,7 +107,10 @@ public class Card
                 break;
             case cardType.damageTorso:
                 target.DamageTorso(1);
-                BlackBoard.otto.StartLaughing();
+                if (target.dead)
+                    BlackBoard.otto.LaughAtDead();
+                else
+                    BlackBoard.otto.StartLaughing();
                 break;
             case cardType.moveLeft:
                 if(target == BlackBoard.manager.characters[0])

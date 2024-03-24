@@ -13,6 +13,7 @@ public static class BlackBoard
 
     public static bool playerTurn;
     public static int eventCounter;
+    public static bool funny;
 
     public static Card selectedCard;
 }

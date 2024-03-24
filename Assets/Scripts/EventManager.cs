@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum OttoEvent
+{
+    Nothing,
+    Shop,
+    Slam,
+    Cage
+}
+
 public class EventManager : MonoBehaviour
 {
     public bool startEvent;
@@ -10,23 +18,27 @@ public class EventManager : MonoBehaviour
 
     public bool eventIsGoing;
     public int currentEventTurn;
-    public string currentEvent = "Nothing";
+    public OttoEvent currentEvent = OttoEvent.Nothing;
+
+    public OttoEvent nextEvent;
 
 
     [Header("Event Objects")]
     public GameObject cage;
     public GameObject shadow;
+    public GameObject shop;
 
     private void Awake()
     {
         BlackBoard.events = this;
+        nextEvent = OttoEvent.Shop;
     }
 
     private void Update()
     {
         if (startEvent)
         {
-            StartEvent(eventName);
+            StartEvent();
             startEvent = false;
         }
         if (continueEvent)
@@ -36,7 +48,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void StartEvent(string eventName)
+    public void StartEvent()
     {
         if (eventIsGoing)
         {
@@ -44,7 +56,7 @@ public class EventManager : MonoBehaviour
         }
         else
         {
-            currentEvent = eventName;
+            currentEvent = nextEvent;
             eventIsGoing = true;
             Invoke("Run" + currentEvent, 0);
             Debug.Log("Event Started");
@@ -104,6 +116,16 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public void RunShop()
+    {
+        if (CheckEvent(1))
+        {
+            //show the shop to the player
+            shop.SetActive(true);
+            shop.GetComponent<Shop>().InitiateShop();
+        }
+    }
+
     public bool CheckEvent(int turnsForThisEvent)
     {
         bool eventCanContinue = false;
@@ -117,9 +139,26 @@ public class EventManager : MonoBehaviour
 
     public void EndEvent()
     {
-        currentEvent = "Nothing";
+        currentEvent = OttoEvent.Nothing;
         eventIsGoing = false;
         currentEventTurn = 0;
         Debug.Log("Event ended");
+
+        BlackBoard.eventCounter = 3;
+        BlackBoard.clock.RotateClock(BlackBoard.eventCounter);
+
+        //3: move to turn start
+        string[] possibleLines = new string[] {
+            "Your go",
+            "Your turn",
+            "Play some cards..",
+            "Go ahead.."
+            };
+
+        int randomInt2 = Random.Range(0, possibleLines.Length);
+
+        BlackBoard.otto.ShortTalk(possibleLines[randomInt2]);
+
+        BlackBoard.manager.StartTurn();
     }
 }

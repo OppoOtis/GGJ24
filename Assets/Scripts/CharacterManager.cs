@@ -119,7 +119,8 @@ public class CharacterManager : MonoBehaviour
 
     public void DamageHead(int amount)
     {
-        if(headDamage >= 8)
+        headDamage += amount;
+        if (headDamage >= 1)
         {
             dead = true;
         }
@@ -131,28 +132,31 @@ public class CharacterManager : MonoBehaviour
                 headDamage = 8;
             }
         }
+        BlackBoard.funny = true;
         UpdateVisual();
     }
     public void DamageTorso(int amount)
     {
-        if (torsoDamage >= 8)
+        torsoDamage += amount;
+        if (torsoDamage >= 2)
         {
             dead = true;
         }
         else
         {
-            torsoDamage += amount;
+
             if (torsoDamage > 7)
             {
                 torsoDamage = 8;
                 legDamage = 3;
             }
         }
+        BlackBoard.funny = true;
         UpdateVisual();
     }
     public void DamageLeg(int amount)
     {
-        if(torsoDamage < 8)
+        if(!dead)
         {
             legDamage += amount;
             if (legDamage > 2)
@@ -160,6 +164,7 @@ public class CharacterManager : MonoBehaviour
                 legDamage = 2;
             }
         }
+        BlackBoard.funny = true;
         UpdateVisual();
     }
     public void DamageArm(int amount)
@@ -180,6 +185,7 @@ public class CharacterManager : MonoBehaviour
             leftArm = false;
             rightArm = false;
         }
+        BlackBoard.funny = true;
         UpdateVisual();
     }
 
@@ -304,7 +310,7 @@ public class CharacterManager : MonoBehaviour
             {
                 standingLimbsVisuals[3].SetActive(true);
             }
-            if (headDamage < 8)
+            if (headDamage < 1)
             {
                 standingHeadVisuals[headDamage].SetActive(true);
             }
@@ -312,7 +318,7 @@ public class CharacterManager : MonoBehaviour
             {
                 standingHeadVisuals[7].SetActive(true);
             }
-            if(torsoDamage < 8) standingTorsoVisuals[torsoDamage].SetActive(true);
+            if(torsoDamage < 2) standingTorsoVisuals[torsoDamage * 4].SetActive(true);
         }
         else
         {
@@ -333,7 +339,7 @@ public class CharacterManager : MonoBehaviour
                 crawlingTorsoVisuals[7].SetActive(true);
             }
 
-            if (headDamage < 8)
+            if (headDamage < 1)
             {
                 crawlingHeadVisuals[headDamage].SetActive(true);
             }
@@ -344,7 +350,7 @@ public class CharacterManager : MonoBehaviour
             crawlingTorsoVisuals[legDamage].SetActive(true);
         }
 
-        if(headDamage >= 8)
+        if(headDamage >= 1)
         {
             chHeadC.color = damagedColor;
             chHead.color = damagedColor;
@@ -360,7 +366,7 @@ public class CharacterManager : MonoBehaviour
             chHeadC.color = healthyColor;
         }
 
-        if (torsoDamage >= 8)
+        if (torsoDamage >= 2)
         {
             chTorsoC.color = damagedColor;
             chTorso.color = damagedColor;

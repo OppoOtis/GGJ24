@@ -74,6 +74,13 @@ public class PuppetMaster : MonoBehaviour
         ShortTalk("HAHAHAHA");
         BlackBoard.currency.AddCurrency(1);
     }
+    
+    public void LaughAtDead() 
+    {
+        MouthAnimator.SetTrigger("Laugh");
+        ShortTalk("HAHAHAHA ITS DEAD!");
+        BlackBoard.currency.AddCurrency(1);
+    }
 
     public void StartFrowning()
     {
@@ -116,6 +123,26 @@ public class PuppetMaster : MonoBehaviour
     {
         rightLookAt = target;
         leftLookAt = target;
+    }
+
+    public IEnumerator LoseGame()
+    {
+        BlackBoard.playerTurn = false;
+        BlackBoard.otto.ShortTalk("Not funny");
+
+        yield return new WaitForSeconds(3);
+
+        BlackBoard.otto.ShortTalk("No more games");
+
+        yield return new WaitForSeconds(3);
+        
+        BlackBoard.otto.ShortTalk("I'm taking your teeth");
+
+        yield return new WaitForSeconds(3);
+
+        Camera.main.GetComponent<Animator>().SetTrigger("Lost");
+
+        yield return null;
     }
 
     IEnumerator TypeTalking(string whatToSay)

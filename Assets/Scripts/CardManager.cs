@@ -6,9 +6,9 @@ public class CardManager : MonoBehaviour
 {
     public Card[] cardPool;
 
-    List<Card> allTimeDeck;
+    public List<Card> allTimeDeck;
 
-    List<Card> deck;
+    public List<Card> deck;
     List<Card> hand;
     public Transform handVisual;
     public GameObject cardPrefab;
@@ -20,6 +20,8 @@ public class CardManager : MonoBehaviour
 
     public CharacterManager[] characters;
 
+    bool firstTurn = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,18 +30,11 @@ public class CardManager : MonoBehaviour
         deck = new List<Card>();
         hand = new List<Card>();
 
-        allTimeDeck.Add(new Card(cardType.moveRight));
-        allTimeDeck.Add(new Card(cardType.moveLeft));
-        allTimeDeck.Add(new Card(cardType.damageArm));
+        allTimeDeck.Add(new Card(cardType.damageTorso));
         allTimeDeck.Add(new Card(cardType.damageLeg));
         allTimeDeck.Add(new Card(cardType.damageHead));
-        allTimeDeck.Add(new Card(cardType.damageTorso));
-        allTimeDeck.Add(new Card(cardType.healArm));
-        allTimeDeck.Add(new Card(cardType.healLeg));
-        allTimeDeck.Add(new Card(cardType.healHead));
-        allTimeDeck.Add(new Card(cardType.healTorso));
 
-        BlackBoard.eventCounter = 10;
+        BlackBoard.eventCounter = 1;
 
         StartGame();
     }
@@ -77,11 +72,26 @@ public class CardManager : MonoBehaviour
             DrawCard();
         }
 
+        BlackBoard.funny = false;
         BlackBoard.otto.AssignLookingTarget(Camera.main.transform); 
     }
 
     public void EndTurn()
     {
+        if(!BlackBoard.funny)
+        {
+            //you lose. Be funny every turn
+            if(firstTurn)
+            {
+                BlackBoard.otto.ShortTalk("I said be funny. Every turn");
+                return;
+            }
+
+            StartCoroutine(BlackBoard.otto.LoseGame());
+            return;
+        }
+
+        firstTurn = false;
         BlackBoard.playerTurn = false;
         StartCoroutine(EndTurnCoroutine());
     }
@@ -171,9 +181,14 @@ public class CardManager : MonoBehaviour
 
         BlackBoard.playerTurn = false;
         BlackBoard.eventCounter--;
-        BlackBoard.clock.RotateClock(BlackBoard.eventCounter);
-        
-        if(BlackBoard.eventCounter > 0)
+
+        if (BlackBoard.eventCounter > 0)
+            BlackBoard.clock.RotateClock(BlackBoard.eventCounter);
+
+        else
+            BlackBoard.clock.EventClock();
+
+        if (BlackBoard.eventCounter > 1)
         {
             string[] possibleLines = new string[] {
             "The timer is ticking...",
@@ -187,7 +202,36 @@ public class CardManager : MonoBehaviour
             BlackBoard.otto.ShortTalk(possibleLines[randomInt]);
         }
 
-        if(hand.Count > 0)
+        else if (BlackBoard.eventCounter == 1)
+        {
+            string[] possibleLines = new string[] {
+            "Next turn it's my move...",
+            "One more turn...",
+            "Prepare yourself..",
+            "1..."
+            };
+
+            int randomInt = Random.Range(0, possibleLines.Length);
+
+            BlackBoard.otto.ShortTalk(possibleLines[randomInt]);
+            BlackBoard.otto.ShortTalk("Next turn it's my move...");
+        }
+
+        else if (BlackBoard.eventCounter == 0)
+        {
+            string[] possibleLines = new string[] {
+            "I have prepared something...",
+            "Pay attention...",
+            "Finally my turn..",
+            "Now I will do something..."
+            };
+
+            int randomInt = Random.Range(0, possibleLines.Length);
+
+            BlackBoard.otto.ShortTalk(possibleLines[randomInt]);
+        }
+
+        if (hand.Count > 0)
         {
             //empty the hand
             DiscardAllCardsInHand();
@@ -195,33 +239,42 @@ public class CardManager : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        if(BlackBoard.eventCounter == 1)
+        if (BlackBoard.eventCounter == 1)
         {
             //if cage is the next event, give a warning
         }
 
-        if(BlackBoard.eventCounter == 0)
+        if (BlackBoard.eventCounter == 0)
         {
             //2.1: trigger an event
-
+            BlackBoard.events.StartEvent();
 
             //2.2 queue a new event
+
+            switch (BlackBoard.events.currentEvent)
+            {
+                case OttoEvent.Shop:
+                    BlackBoard.otto.ShortTalk("Pick a card...");
+                    break;
+            }
         }
 
-
-        //3: move to turn start
-        string[] possibleLines2 = new string[] {
+        if (!BlackBoard.events.eventIsGoing)
+        {
+            //3: move to turn start
+            string[] possibleLines = new string[] {
             "Your go",
             "Your turn",
             "Play some cards..",
             "Go ahead.."
             };
 
-        int randomInt2 = Random.Range(0, possibleLines2.Length);
+            int randomInt2 = Random.Range(0, possibleLines.Length);
 
-        BlackBoard.otto.ShortTalk(possibleLines2[randomInt2]);
+            BlackBoard.otto.ShortTalk(possibleLines[randomInt2]);
 
-        StartTurn();
+            StartTurn();
+        }
 
         yield return null;
     }
